@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 
 export default function BeerSemaphore() {
-  const [status, setStatus] = useState<"open" | "closed">("closed");
+  const [status, setStatus] = useState<"open" | "closed" | "underage">("closed");
   const [loading, setLoading] = useState(true);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
@@ -28,9 +28,50 @@ export default function BeerSemaphore() {
   }, []);
 
   const isOpen = status === "open";
+  const isUnderage = status === "underage";
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-8">
+      {/* Underage Modal Overlay */}
+      {isUnderage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="relative bg-gradient-to-br from-yellow-900/90 to-red-900/90 border-4 border-yellow-500 rounded-2xl p-8 max-w-lg mx-4 shadow-2xl animate-pulse">
+            {/* Siren emojis in corners */}
+            <div className="absolute -top-6 -left-6 text-6xl animate-spin" style={{ animationDuration: '1s' }}>🚨</div>
+            <div className="absolute -top-6 -right-6 text-6xl animate-spin" style={{ animationDuration: '1s', animationDirection: 'reverse' }}>🚨</div>
+            <div className="absolute -bottom-6 -left-6 text-6xl animate-spin" style={{ animationDuration: '1s', animationDirection: 'reverse' }}>🚨</div>
+            <div className="absolute -bottom-6 -right-6 text-6xl animate-spin" style={{ animationDuration: '1s' }}>🚨</div>
+
+            <div className="text-center space-y-4">
+              <div className="text-5xl mb-4">🚨</div>
+              <h2 className="text-4xl font-bold text-yellow-400 mb-4" style={{ fontFamily: 'Impact, sans-serif' }}>
+                ACCESS DENIED
+              </h2>
+              <div className="text-5xl mb-4">🚨</div>
+              <p className="text-yellow-100 text-xl font-semibold leading-relaxed">
+                Are you really trying to get past Self verification AND machine intelligence?
+              </p>
+
+              {remainingTime !== null && (
+                <div className="mt-6 space-y-3">
+                  <p className="text-yellow-200 text-lg font-bold">
+                    Resetting in: {Math.ceil(remainingTime / 1000)}s
+                  </p>
+                  <div className="w-full h-3 bg-gray-900 rounded-full overflow-hidden border-2 border-yellow-600">
+                    <div
+                      className="h-full bg-gradient-to-r from-yellow-400 to-red-600 transition-all duration-300 ease-linear"
+                      style={{
+                        width: `${(remainingTime / 5000) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Animated background bubbles when open */}
       {isOpen && (
         <div className="absolute inset-0 pointer-events-none">
@@ -61,6 +102,8 @@ export default function BeerSemaphore() {
                   className={`w-10 h-10 rounded-full transition-all duration-500 ${
                     isOpen
                       ? "bg-green-500 shadow-[0_0_30px_rgba(34,197,94,0.8)]"
+                      : isUnderage
+                      ? "bg-yellow-500 shadow-[0_0_30px_rgba(234,179,8,0.8)]"
                       : "bg-red-600 shadow-[0_0_30px_rgba(220,38,38,0.8)]"
                   } animate-pulse`}
                 />
@@ -89,6 +132,8 @@ export default function BeerSemaphore() {
                       className={`w-full h-full rounded-r-full border-4 transition-all duration-1000 ${
                         isOpen
                           ? "bg-gradient-to-r from-green-600 to-green-500 border-green-700 shadow-[0_0_40px_rgba(34,197,94,0.6)]"
+                          : isUnderage
+                          ? "bg-gradient-to-r from-yellow-600 to-yellow-500 border-yellow-700 shadow-[0_0_40px_rgba(234,179,8,0.6)]"
                           : "bg-gradient-to-r from-red-700 to-red-600 border-red-800 shadow-[0_0_40px_rgba(220,38,38,0.6)]"
                       }`}
                     >
@@ -129,23 +174,27 @@ export default function BeerSemaphore() {
               className={`text-7xl font-bold tracking-wider transition-all duration-1000 ${
                 isOpen
                   ? "text-green-400 drop-shadow-[0_0_25px_rgba(34,197,94,1)]"
+                  : isUnderage
+                  ? "text-yellow-400 drop-shadow-[0_0_25px_rgba(234,179,8,1)]"
                   : "text-red-500 drop-shadow-[0_0_25px_rgba(220,38,38,1)]"
               }`}
               style={{
                 fontFamily: "Impact, sans-serif",
                 textShadow: isOpen
                   ? "0 0 10px #22c55e, 0 0 20px #22c55e, 0 0 30px #22c55e, 0 0 40px #22c55e"
+                  : isUnderage
+                  ? "0 0 10px #eab308, 0 0 20px #eab308, 0 0 30px #eab308, 0 0 40px #eab308"
                   : "0 0 10px #dc2626, 0 0 20px #dc2626, 0 0 30px #dc2626, 0 0 40px #dc2626",
               }}
             >
-              {isOpen ? "OPEN" : "CLOSED"}
+              {isOpen ? "OPEN" : isUnderage ? "DENIED" : "CLOSED"}
             </div>
 
             {/* Neon tube effect */}
             <div className="absolute inset-0 -z-10">
               <div
                 className={`absolute inset-0 blur-xl transition-all duration-1000 ${
-                  isOpen ? "bg-green-500/30" : "bg-red-600/30"
+                  isOpen ? "bg-green-500/30" : isUnderage ? "bg-yellow-500/30" : "bg-red-600/30"
                 }`}
               />
             </div>
@@ -238,7 +287,7 @@ export default function BeerSemaphore() {
             <div className="bg-white p-4 rounded-lg shadow-inner">
               <QRCode
                 value="https://redirect.self.xyz?selfApp=%7B%22sessionId%22%3A%22b8fde505-9e0b-4143-9575-05ac821f7a8f%22%2C%22userIdType%22%3A%22uuid%22%2C%22devMode%22%3Afalse%2C%22endpointType%22%3A%22https%22%2C%22header%22%3A%22%22%2C%22logoBase64%22%3A%22https%3A%2F%2Fi.postimg.cc%2FkG8KkQCL%2Ftemp-Image-Byjart.avif%22%2C%22deeplinkCallback%22%3A%22%22%2C%22disclosures%22%3A%7B%22minimumAge%22%3A21%7D%2C%22chainID%22%3A42220%2C%22version%22%3A2%2C%22userDefinedData%22%3A%22beerSession%22%2C%22appName%22%3A%22SelfBeer%22%2C%22scope%22%3A%22beer%22%2C%22endpoint%22%3A%22https%3A%2F%2Fselfbeer.ngrok.app%2Fapi%2Fverify%22%2C%22userId%22%3A%229765e01a-32fc-4819-bdc9-71b34c293bd6%22%7D"
-                size={200}
+                size={300}
                 level="H"
               />
             </div>
