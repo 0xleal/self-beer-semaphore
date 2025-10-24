@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import QRCode from 'react-qr-code';
 
 export default function BeerSemaphore() {
   const [status, setStatus] = useState<'open' | 'closed'>('closed');
@@ -27,7 +28,7 @@ export default function BeerSemaphore() {
   const isOpen = status === 'open';
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-8">
       {/* Animated background bubbles when open */}
       {isOpen && (
         <div className="absolute inset-0 pointer-events-none">
@@ -45,7 +46,10 @@ export default function BeerSemaphore() {
         </div>
       )}
 
-      <div className="relative z-10 flex flex-col items-center gap-12">
+      {/* Two Column Layout */}
+      <div className="relative z-10 grid grid-cols-2 gap-16 max-w-7xl w-full items-center">
+        {/* LEFT COLUMN - Animation */}
+        <div className="flex flex-col items-center gap-12">
         {/* Semaphore Pole and Arm Assembly */}
         <div className="relative flex flex-col items-center">
           {/* Top lamp housing */}
@@ -117,36 +121,35 @@ export default function BeerSemaphore() {
           <div className="w-40 h-4 bg-gray-950 rounded-b-lg" />
         </div>
 
-        {/* Neon Sign Display */}
-        <div className="relative">
-          <div
-            className={`text-8xl font-bold tracking-wider transition-all duration-1000 ${
-              isOpen
-                ? 'text-green-400 drop-shadow-[0_0_25px_rgba(34,197,94,1)]'
-                : 'text-red-500 drop-shadow-[0_0_25px_rgba(220,38,38,1)]'
-            }`}
-            style={{
-              fontFamily: 'Impact, sans-serif',
-              textShadow: isOpen
-                ? '0 0 10px #22c55e, 0 0 20px #22c55e, 0 0 30px #22c55e, 0 0 40px #22c55e'
-                : '0 0 10px #dc2626, 0 0 20px #dc2626, 0 0 30px #dc2626, 0 0 40px #dc2626',
-            }}
-          >
-            {isOpen ? 'OPEN' : 'CLOSED'}
-          </div>
-
-          {/* Neon tube effect */}
-          <div className="absolute inset-0 -z-10">
+          {/* Neon Sign Display */}
+          <div className="relative">
             <div
-              className={`absolute inset-0 blur-xl transition-all duration-1000 ${
-                isOpen ? 'bg-green-500/30' : 'bg-red-600/30'
+              className={`text-7xl font-bold tracking-wider transition-all duration-1000 ${
+                isOpen
+                  ? 'text-green-400 drop-shadow-[0_0_25px_rgba(34,197,94,1)]'
+                  : 'text-red-500 drop-shadow-[0_0_25px_rgba(220,38,38,1)]'
               }`}
-            />
-          </div>
-        </div>
+              style={{
+                fontFamily: 'Impact, sans-serif',
+                textShadow: isOpen
+                  ? '0 0 10px #22c55e, 0 0 20px #22c55e, 0 0 30px #22c55e, 0 0 40px #22c55e'
+                  : '0 0 10px #dc2626, 0 0 20px #dc2626, 0 0 30px #dc2626, 0 0 40px #dc2626',
+              }}
+            >
+              {isOpen ? 'OPEN' : 'CLOSED'}
+            </div>
 
-        {/* Beer Tap Visualization */}
-        <div className="relative">
+            {/* Neon tube effect */}
+            <div className="absolute inset-0 -z-10">
+              <div
+                className={`absolute inset-0 blur-xl transition-all duration-1000 ${
+                  isOpen ? 'bg-green-500/30' : 'bg-red-600/30'
+                }`}
+              />
+            </div>
+          </div>
+
+          {/* Beer Tap and Glass */}
           <div className="flex items-end gap-8">
             {/* Beer Tap */}
             <div className="relative">
@@ -193,14 +196,88 @@ export default function BeerSemaphore() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
+
+          {/* Status text */}
+          <div className="text-center">
+            <p className="text-gray-400 text-lg">
+              {loading ? 'Checking status...' : `Machine is currently ${status}`}
+            </p>
+            <p className="text-gray-600 text-xs mt-1">Auto-refreshing every 2 seconds</p>
+          </div>
         </div>
 
-        {/* Status subtitle */}
-        <div className="text-center">
-          <p className="text-gray-400 text-xl">
-            {loading ? 'Checking status...' : `The beer machine is currently ${status}`}
-          </p>
-          <p className="text-gray-600 text-sm mt-2">Auto-refreshing every 2 seconds</p>
+        {/* RIGHT COLUMN - QR Code and Instructions */}
+        <div className="flex flex-col items-center justify-center gap-8 p-8">
+          {/* QR Code Card */}
+          <div className="relative bg-gradient-to-br from-amber-100 to-yellow-50 p-8 rounded-2xl border-4 border-amber-800 shadow-2xl">
+            {/* Beer mug decoration corners */}
+            <div className="absolute -top-3 -left-3 text-4xl">🍺</div>
+            <div className="absolute -top-3 -right-3 text-4xl">🍺</div>
+
+            <div className="bg-white p-5 rounded-lg shadow-inner">
+              <QRCode
+                value="https://redirect.self.xyz?selfApp=%7B%22sessionId%22%3A%22b8fde505-9e0b-4143-9575-05ac821f7a8f%22%2C%22userIdType%22%3A%22uuid%22%2C%22devMode%22%3Afalse%2C%22endpointType%22%3A%22https%22%2C%22header%22%3A%22%22%2C%22logoBase64%22%3A%22https%3A%2F%2Fi.postimg.cc%2FkG8KkQCL%2Ftemp-Image-Byjart.avif%22%2C%22deeplinkCallback%22%3A%22%22%2C%22disclosures%22%3A%7B%22minimumAge%22%3A21%7D%2C%22chainID%22%3A42220%2C%22version%22%3A2%2C%22userDefinedData%22%3A%22beerSession%22%2C%22appName%22%3A%22SelfBeer%22%2C%22scope%22%3A%22beer%22%2C%22endpoint%22%3A%22https%3A%2F%2Fselfbeer.ngrok.app%2Fapi%2Fverify%22%2C%22userId%22%3A%229765e01a-32fc-4819-bdc9-71b34c293bd6%22%7D"
+                size={240}
+                level="H"
+              />
+            </div>
+          </div>
+
+          {/* Instructions */}
+          <div className="max-w-md space-y-6">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-amber-400 mb-2">Ready for a Beer?</h2>
+              <p className="text-gray-400 text-sm">Verify your age to unlock the tap</p>
+            </div>
+
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 space-y-4">
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-black font-bold">
+                  1
+                </div>
+                <div>
+                  <h3 className="text-amber-300 font-semibold mb-1">Download Self.xyz App</h3>
+                  <p className="text-gray-400 text-sm">Get the Self app from your app store</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-black font-bold">
+                  2
+                </div>
+                <div>
+                  <h3 className="text-amber-300 font-semibold mb-1">Scan Your Passport</h3>
+                  <p className="text-gray-400 text-sm">Use the app to securely scan your passport</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-black font-bold">
+                  3
+                </div>
+                <div>
+                  <h3 className="text-amber-300 font-semibold mb-1">Prove You're 21+</h3>
+                  <p className="text-gray-400 text-sm">Scan the QR code above to verify your age</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black font-bold">
+                  ✓
+                </div>
+                <div>
+                  <h3 className="text-green-300 font-semibold mb-1">Pour Your Beer!</h3>
+                  <p className="text-gray-400 text-sm">Once verified, the machine opens for you</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center pt-2">
+              <p className="text-gray-500 text-xs">
+                Powered by Self.xyz - Secure age verification
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
