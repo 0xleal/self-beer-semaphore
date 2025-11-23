@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
+import Image from "next/image";
 
 export default function BeerSemaphore() {
-  const [status, setStatus] = useState<"open" | "closed" | "underage">("closed");
+  const [status, setStatus] = useState<"open" | "closed" | "underage">(
+    "closed"
+  );
   const [loading, setLoading] = useState(true);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
@@ -31,25 +34,49 @@ export default function BeerSemaphore() {
   const isUnderage = status === "underage";
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-8">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center px-8 py-8">
       {/* Underage Modal Overlay */}
       {isUnderage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
           <div className="relative bg-gradient-to-br from-yellow-900/90 to-red-900/90 border-4 border-yellow-500 rounded-2xl p-8 max-w-lg mx-4 shadow-2xl animate-pulse">
             {/* Siren emojis in corners */}
-            <div className="absolute -top-6 -left-6 text-6xl animate-spin" style={{ animationDuration: '1s' }}>🚨</div>
-            <div className="absolute -top-6 -right-6 text-6xl animate-spin" style={{ animationDuration: '1s', animationDirection: 'reverse' }}>🚨</div>
-            <div className="absolute -bottom-6 -left-6 text-6xl animate-spin" style={{ animationDuration: '1s', animationDirection: 'reverse' }}>🚨</div>
-            <div className="absolute -bottom-6 -right-6 text-6xl animate-spin" style={{ animationDuration: '1s' }}>🚨</div>
+            <div
+              className="absolute -top-6 -left-6 text-6xl animate-spin"
+              style={{ animationDuration: "1s" }}
+            >
+              🚨
+            </div>
+            <div
+              className="absolute -top-6 -right-6 text-6xl animate-spin"
+              style={{ animationDuration: "1s", animationDirection: "reverse" }}
+            >
+              🚨
+            </div>
+            <div
+              className="absolute -bottom-6 -left-6 text-6xl animate-spin"
+              style={{ animationDuration: "1s", animationDirection: "reverse" }}
+            >
+              🚨
+            </div>
+            <div
+              className="absolute -bottom-6 -right-6 text-6xl animate-spin"
+              style={{ animationDuration: "1s" }}
+            >
+              🚨
+            </div>
 
             <div className="text-center space-y-4">
               <div className="text-5xl mb-4">🚨</div>
-              <h2 className="text-4xl font-bold text-yellow-400 mb-4" style={{ fontFamily: 'Impact, sans-serif' }}>
+              <h2
+                className="text-4xl font-bold text-yellow-400 mb-4"
+                style={{ fontFamily: "Impact, sans-serif" }}
+              >
                 ACCESS DENIED
               </h2>
               <div className="text-5xl mb-4">🚨</div>
               <p className="text-yellow-100 text-xl font-semibold leading-relaxed">
-                Are you really trying to get past Self verification AND machine intelligence?
+                Are you really trying to get past Self verification AND machine
+                intelligence?
               </p>
 
               {remainingTime !== null && (
@@ -194,7 +221,11 @@ export default function BeerSemaphore() {
             <div className="absolute inset-0 -z-10">
               <div
                 className={`absolute inset-0 blur-xl transition-all duration-1000 ${
-                  isOpen ? "bg-green-500/30" : isUnderage ? "bg-yellow-500/30" : "bg-red-600/30"
+                  isOpen
+                    ? "bg-green-500/30"
+                    : isUnderage
+                    ? "bg-yellow-500/30"
+                    : "bg-red-600/30"
                 }`}
               />
             </div>
@@ -295,13 +326,22 @@ export default function BeerSemaphore() {
 
           {/* Instructions */}
           <div className="max-w-md space-y-4">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-amber-400 mb-1">
-                Ready for a Beer?
-              </h2>
-              <p className="text-gray-400 text-xs">
-                Verify your age to unlock the tap
-              </p>
+            <div className="flex items-center justify-between gap-4">
+              <div className="text-left">
+                <h2 className="text-2xl font-bold text-amber-400 mb-1">
+                  Ready for a Beer?
+                </h2>
+                <p className="text-gray-400 text-xs">
+                  Verify your age to unlock the tap
+                </p>
+              </div>
+              <Image
+                src="/self-logo.jpg"
+                alt="Self.xyz"
+                width={80}
+                height={26}
+                className="opacity-90 hover:opacity-100 transition-opacity flex-shrink-0 rounded-lg"
+              />
             </div>
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700 space-y-3">
@@ -339,7 +379,7 @@ export default function BeerSemaphore() {
                 </div>
                 <div>
                   <h3 className="text-amber-300 font-semibold mb-1">
-                    Prove You're 21+
+                    Prove You're 18+
                   </h3>
                   <p className="text-gray-400 text-sm">
                     Scan the QR code above to verify your age
