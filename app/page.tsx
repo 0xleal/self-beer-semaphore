@@ -344,27 +344,27 @@ export default function BeerSemaphore() {
         </div>
 
         {/* RIGHT COLUMN - QR Code and Instructions */}
-        <div className="flex flex-col items-center justify-center gap-6 p-4">
+        <div className="flex flex-col items-center justify-center gap-2 p-2">
           {/* QR Code Card */}
-          <div className="relative bg-gradient-to-br from-amber-100 to-yellow-50 p-6 rounded-2xl border-4 border-amber-800 shadow-2xl">
+          <div className="relative bg-gradient-to-br from-amber-100 to-yellow-50 p-2 rounded-2xl border-4 border-amber-800 shadow-2xl">
             {/* Beer mug decoration corners */}
-            <div className="absolute -top-3 -left-3 text-4xl">🍺</div>
-            <div className="absolute -top-3 -right-3 text-4xl">🍺</div>
+            <div className="absolute -top-3 -left-3 text-3xl">🍺</div>
+            <div className="absolute -top-3 -right-3 text-3xl">🍺</div>
 
-            <div className="bg-white p-4 rounded-lg shadow-inner">
+            <div className="bg-white p-2 rounded-lg shadow-inner">
               <QRCode
                 value="https://redirect.self.xyz?selfApp=%7B%22sessionId%22%3A%22b8fde505-9e0b-4143-9575-05ac821f7a8f%22%2C%22userIdType%22%3A%22uuid%22%2C%22devMode%22%3Afalse%2C%22endpointType%22%3A%22https%22%2C%22header%22%3A%22%22%2C%22logoBase64%22%3A%22https%3A%2F%2Fi.postimg.cc%2FkG8KkQCL%2Ftemp-Image-Byjart.avif%22%2C%22deeplinkCallback%22%3A%22%22%2C%22disclosures%22%3A%7B%22minimumAge%22%3A21%7D%2C%22chainID%22%3A42220%2C%22version%22%3A2%2C%22userDefinedData%22%3A%22beerSession%22%2C%22appName%22%3A%22SelfBeer%22%2C%22scope%22%3A%22beer%22%2C%22endpoint%22%3A%22https%3A%2F%2Fselfbeer.ngrok.app%2Fapi%2Fverify%22%2C%22userId%22%3A%229765e01a-32fc-4819-bdc9-71b34c293bd6%22%7D"
-                size={300}
+                size={400}
                 level="H"
               />
             </div>
           </div>
 
           {/* Instructions */}
-          <div className="max-w-md space-y-4">
-            <div className="flex items-center justify-between gap-4">
+          <div className="max-w-md space-y-2">
+            <div className="flex items-center justify-between gap-3">
               <div className="text-left">
-                <h2 className="text-2xl font-bold text-amber-400 mb-1">
+                <h2 className="text-xl font-bold text-amber-400 mb-1">
                   Ready for a Beer?
                 </h2>
                 <p className="text-gray-400 text-xs">
@@ -374,13 +374,13 @@ export default function BeerSemaphore() {
               <Image
                 src="/self-logo.jpg"
                 alt="Self.xyz"
-                width={80}
-                height={26}
+                width={70}
+                height={23}
                 className="opacity-90 hover:opacity-100 transition-opacity flex-shrink-0 rounded-lg"
               />
             </div>
 
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700 space-y-3">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-3 border border-gray-700 space-y-2">
               <div className="flex gap-4">
                 <div className="flex-shrink-0 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-black font-bold">
                   1
