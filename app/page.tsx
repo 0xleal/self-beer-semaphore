@@ -116,8 +116,8 @@ export default function BeerSemaphore() {
         </div>
       )}
 
-      {/* Two Column Layout */}
-      <div className="relative z-10 grid grid-cols-2 gap-8 max-w-6xl w-full items-center">
+      {/* Three Column Layout */}
+      <div className="relative z-10 grid grid-cols-3 gap-8 max-w-7xl w-full items-center">
         {/* LEFT COLUMN - Animation */}
         <div className="flex flex-col items-center gap-8">
           {/* Semaphore Pole and Arm Assembly */}
@@ -304,6 +304,42 @@ export default function BeerSemaphore() {
             <p className="text-gray-600 text-xs mt-1">
               Auto-refreshing every second
             </p>
+          </div>
+        </div>
+
+        {/* MIDDLE COLUMN - App Store QR Codes */}
+        <div className="flex flex-col items-center justify-center gap-6 p-4">
+          <h3 className="text-amber-400 font-semibold text-center text-lg">
+            Download Self.xyz App
+          </h3>
+          <div className="flex flex-col gap-4">
+            {/* iOS App Store QR Code */}
+            <div className="bg-white p-3 rounded-xl shadow-lg">
+              <div className="bg-white p-2 rounded-lg">
+                <QRCode
+                  value="https://apps.apple.com/us/app/self-zk/id6478563710"
+                  size={140}
+                  level="H"
+                />
+              </div>
+              <p className="text-center text-gray-800 text-xs font-semibold mt-2">
+                iOS App Store
+              </p>
+            </div>
+
+            {/* Google Play QR Code */}
+            <div className="bg-white p-3 rounded-xl shadow-lg">
+              <div className="bg-white p-2 rounded-lg">
+                <QRCode
+                  value="https://play.google.com/store/apps/details?id=com.proofofpassportapp&pli=1"
+                  size={140}
+                  level="H"
+                />
+              </div>
+              <p className="text-center text-gray-800 text-xs font-semibold mt-2">
+                Google Play
+              </p>
+            </div>
           </div>
         </div>
 
